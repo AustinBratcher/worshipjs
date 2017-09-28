@@ -1,0 +1,19 @@
+#main-background {
+  width: 100%;
+  height: 100%;
+
+
+  /*Change timing of these to make transition from major color changes smoother*/
+  /*https://developer.mozilla.org/en-US/docs/Web/CSS/transition*/
+  /*https://stackoverflow.com/questions/9369365/how-to-make-background-gradually-change-colors*/
+  -webkit-transition: all 0.01s ease-in-out;
+  -moz-transition: all 0.01s ease-in-out;
+  -o-transition: all 0.01s ease-in-out;
+  -ms-transition: all 0.01s ease-in-out;
+  transition: all 0.01s ease-in-out;
+}
+
+#cs {
+  padding: 100px;
+  color: white;
+}
