@@ -1,4 +1,4 @@
-import { ColorModifier } from '../color-modifier';
+import { ColorModifier } from './color-modifier';
 import { Rgba } from '../rgba/rgba';
 import { Subject } from 'rxjs/Rx';
 

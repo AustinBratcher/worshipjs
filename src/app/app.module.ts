@@ -5,12 +5,14 @@ import { MdButtonModule } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
-import { RgbaComponent } from './rgba/rgba.component';
+import { RgbaComponent } from './rgba-coordinator/rgba/rgba.component';
+import { RgbaCoordinatorComponent } from './rgba-coordinator/rgba-coordinator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RgbaComponent
+    RgbaComponent,
+    RgbaCoordinatorComponent
   ],
   imports: [
     BrowserModule,

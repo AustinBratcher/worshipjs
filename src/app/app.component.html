@@ -1,16 +1,1 @@
-<div style="position:absolute;">
-  <button md-button (click)="print()"> Basic </button>
-</div>
-
-<div style="float:right;">
-  <button md-button (click)="status()"> AppComponent </button>
-</div>
-
-<p style="position:fixed; bottom: 0">
-  {{orientation.alpha}}
-  {{orientation.gamma}}
-  {{orientation.beta}}
-</p>
-
-<app-rgba [rgba]="getAppRgba()">
-</app-rgba>
+<app-rgba-coordinator></app-rgba-coordinator>

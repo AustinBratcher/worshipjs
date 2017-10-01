@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnChanges, DoCheck} from '@angular/core';
 
-import { ColorModifier } from '../color-modifier';
 import { Rgba } from './rgba';
 
 @Component({
