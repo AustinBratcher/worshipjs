@@ -4,6 +4,7 @@ import { Observer } from 'rxjs/Rx';
 
 import { RgbaComponent } from './rgba/rgba.component';
 import { Rgba } from './rgba/rgba';
+import { ColorModifier } from './modifiers/color-modifier';
 
 import { CmWeather } from './modifiers/cm-weather';
 import { CmTOrientation } from './modifiers/cm-t-orientation';
@@ -26,16 +27,25 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
     beta: 0
   };
 
+  private modifiers: ColorModifier[] = [];
+
   // Move to an array that can be looped through for all coordinators
   // modifiers
   private cmtOrientation: CmTOrientation = new CmTOrientation();
 
 
-  constructor() { }
+  constructor() {
+    this.modifiers.push(new CmTOrientation());
+
+    for(let modifier of this.modifiers) {
+      modifier.subscribe(this);
+      modifier.init();
+    }
+  }
 
   ngOnInit() {
     // this object to its modifiers
-    this.cmtOrientation.subscribe(this);
+    // this.cmtOrientation.subscribe(this);
 
     // Temp event listener to view orientation
     window.addEventListener("deviceorientation", (event)=>{

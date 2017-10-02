@@ -3,9 +3,11 @@ import { Rgba } from '../rgba/rgba';
 import { Subject } from 'rxjs/Rx';
 
 export abstract class ColorModifier extends Subject<Rgba> {
-  abstract modifyColors(rgba: Rgba, callback: Function);
 
-  // TODO add sbstract Hash function
+  abstract hashColor(rgba: Rgba): Rgba;
 
-  // tODO make abstract initialization function that can call "next" for the single time modifiers
+  // Abstract method to set up any necessary services, etc. for this item
+  // Init is used instead of constructor for this so as to allow for next to be
+  // called on these subjects after they are created.
+  abstract init();
 }
