@@ -2,7 +2,9 @@ import { RgbaCoordinatorComponent } from '../rgba-coordinator.component';
 import { ColorModifier } from './color-modifier';
 import { Rgba } from '../rgba/rgba';
 
-export class CmTOrientation extends ColorModifier{
+export class CmTOrientation extends ColorModifier {
+
+  private TIME_BETWEEN_MODS = 2000;
 
   private lastModTime = 0;
   private doAlpha: number = 0; // 0 to 360
@@ -14,6 +16,8 @@ export class CmTOrientation extends ColorModifier{
     // https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation#Browser_compatibility
     // polyfill!! --> https://github.com/dorukeker/gyronorm.js
     window.addEventListener("deviceorientation", (event)=>{
+
+      // TODO make this less sensetive (i.e. only update if there is a change greater than 5% or something of that nature);
       this.doAlpha = Math.round(event.alpha);
       this.doGamma = Math.round(event.gamma);
       this.doBeta = Math.round(event.beta);
@@ -23,12 +27,12 @@ export class CmTOrientation extends ColorModifier{
       let timeSinceLastMod = currentTime - this.lastModTime;
 
       // Only update the color ever 2 seconds
-      if(event && timeSinceLastMod >= 2000) {
+      if(event && timeSinceLastMod >= this.TIME_BETWEEN_MODS) {
 
         // NOTE: the use of the static variable creates a circular dependency
         // This was an intentional design, as the RgbaCoordinatorComponent is intented to
         // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
-        // of sorts for the module consisting of the RgbaComponent and modifiers. 
+        // of sorts for the module consisting of the RgbaComponent and modifiers.
         this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
         this.lastModTime = currentTime;
       }

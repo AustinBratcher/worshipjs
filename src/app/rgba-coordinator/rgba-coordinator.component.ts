@@ -8,6 +8,7 @@ import { ColorModifier } from './modifiers/color-modifier';
 
 import { CmWeather } from './modifiers/cm-weather';
 import { CmTOrientation } from './modifiers/cm-t-orientation';
+import { CmTime } from './modifiers/cm-time';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
 
   constructor() {
-    this.modifiers.push(new CmTOrientation());
+    // this.modifiers.push(new CmTOrientation());
+    this.modifiers.push(new CmTime());
 
     for(let modifier of this.modifiers) {
       modifier.subscribe(this);
