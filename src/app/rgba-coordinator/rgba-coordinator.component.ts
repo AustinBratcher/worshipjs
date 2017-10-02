@@ -6,9 +6,11 @@ import { RgbaComponent } from './rgba/rgba.component';
 import { Rgba } from './rgba/rgba';
 import { ColorModifier } from './modifiers/color-modifier';
 
+// Modifiers
 import { CmWeather } from './modifiers/cm-weather';
 import { CmTOrientation } from './modifiers/cm-t-orientation';
 import { CmTime } from './modifiers/cm-time';
+import { CmVOrientation } from './modifiers/cm-v-orientation';
 
 
 @Component({
@@ -37,7 +39,8 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   constructor() {
     // this.modifiers.push(new CmTOrientation());
-    this.modifiers.push(new CmTime());
+    // this.modifiers.push(new CmTime());
+    this.modifiers.push(new CmVOrientation());
 
     for(let modifier of this.modifiers) {
       modifier.subscribe(this);
@@ -46,8 +49,6 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
   }
 
   ngOnInit() {
-    // this object to its modifiers
-    // this.cmtOrientation.subscribe(this);
 
     // Temp event listener to view orientation
     window.addEventListener("deviceorientation", (event)=>{
@@ -65,7 +66,7 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   // Method to comply with Observer interface
   next(rgba: Rgba) {
-    console.log(this);
+    // console.log(this);
     RgbaCoordinatorComponent.appRgba = rgba;
   }
 

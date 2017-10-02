@@ -44,9 +44,9 @@ export class CmTOrientation extends ColorModifier {
   hashColor(rgba: Rgba): Rgba {
 
     // shift orientation value
-    let newRed = (this.doAlpha + rgba.red)%256;
-    let newGreen = (this.doGamma + 90 + rgba.green)%256;
-    let newBlue = (this.doBeta + 180 + rgba.blue)%256;
+    let newRed = (this.doAlpha + rgba.red)%ColorModifier.MAX_RGBA_VALUE;
+    let newGreen = (this.doGamma + 90 + rgba.green)%ColorModifier.MAX_RGBA_VALUE;
+    let newBlue = (this.doBeta + 180 + rgba.blue)%ColorModifier.MAX_RGBA_VALUE;
 
 
     return new Rgba(newRed, newGreen, newBlue);

@@ -3,6 +3,7 @@ import { Rgba } from '../rgba/rgba';
 import { Subject } from 'rxjs/Rx';
 
 export abstract class ColorModifier extends Subject<Rgba> {
+  static MAX_RGBA_VALUE = 256; 
 
   abstract hashColor(rgba: Rgba): Rgba;
 

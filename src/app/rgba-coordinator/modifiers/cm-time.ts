@@ -11,14 +11,18 @@ export class CmTime extends ColorModifier {
   private lastModTime: number = 0;
 
   init() {
-      // NOTE: Presently in GMT timezone. Consider adjusting this for the current time zone; 
+      // NOTE: Presently in GMT timezone. Consider adjusting this for the current time zone;
       this.currentHour = Math.floor((Date.now()%this.ONE_DAY)/this.ONE_HOUR);
 
+      // NOTE: the use of the static variable creates a circular dependency
+      // This was an intentional design, as the RgbaCoordinatorComponent is intented to
+      // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
+      // of sorts for the module consisting of the RgbaComponent and modifiers.
       this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
   }
 
   hashColor(rgba: Rgba): Rgba {
-    let newRed = (rgba.red + this.currentHour)%256;
+    let newRed = (rgba.red + this.currentHour)%ColorModifier.MAX_RGBA_VALUE;
     let newGreen = rgba.green;
     let newBlue = rgba.blue;
 

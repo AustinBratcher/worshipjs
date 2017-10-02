@@ -25,7 +25,6 @@ export class RgbaComponent implements OnInit{
 
 
   ngOnChanges() {
-    console.log("changed");
     this.updateCurrentStyles();
   }
 
