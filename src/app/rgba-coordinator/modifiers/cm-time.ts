@@ -4,15 +4,13 @@ import { Rgba } from '../rgba/rgba';
 
 export class CmTime extends ColorModifier {
 
-  private ONE_HOUR:number = 3600000; // one hour
-  private ONE_DAY:number = 86400000; // one day
-
   private currentHour: number = 0;
   private lastModTime: number = 0;
 
   init() {
+    
       // NOTE: Presently in GMT timezone. Consider adjusting this for the current time zone;
-      this.currentHour = Math.floor((Date.now()%this.ONE_DAY)/this.ONE_HOUR);
+      this.currentHour = Math.floor((Date.now()%ColorModifier.ONE_DAY)/ColorModifier.ONE_HOUR);
 
       // NOTE: the use of the static variable creates a circular dependency
       // This was an intentional design, as the RgbaCoordinatorComponent is intented to

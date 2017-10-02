@@ -7,10 +7,15 @@ import { Rgba } from './rgba/rgba';
 import { ColorModifier } from './modifiers/color-modifier';
 
 // Modifiers
-import { CmWeather } from './modifiers/cm-weather';
 import { CmTOrientation } from './modifiers/cm-t-orientation';
 import { CmTime } from './modifiers/cm-time';
 import { CmVOrientation } from './modifiers/cm-v-orientation';
+import { CmDevice } from './modifiers/cm-device';
+// import { CmGeolocation } from './modifiers/cm-geolocation';
+// import { CmScripture } from './modifiers/cm-scripture';
+// import { CmWeather } from './modifiers/cm-weather';
+// import { CmStock } from './modifiers/cm-stock';
+// import { CmMenu } from './modifiers/cm-menu';
 
 
 @Component({
@@ -39,8 +44,14 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   constructor() {
     // this.modifiers.push(new CmTOrientation());
+    // this.modifiers.push(new CmVOrientation());
     // this.modifiers.push(new CmTime());
-    this.modifiers.push(new CmVOrientation());
+    this.modifiers.push(new CmDevice());
+    // this.modifiers.push(new CmGeolocation());
+    // this.modifiers.push(new CmScripture());
+    // this.modifiers.push(new CmWeather());
+    // this.modifiers.push(new CmStock());
+    // this.modifiers.push(new CmMenu());
 
     for(let modifier of this.modifiers) {
       modifier.subscribe(this);

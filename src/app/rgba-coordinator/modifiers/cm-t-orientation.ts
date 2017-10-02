@@ -4,7 +4,7 @@ import { Rgba } from '../rgba/rgba';
 
 export class CmTOrientation extends ColorModifier {
 
-  private TIME_BETWEEN_MODS = 2000;
+  private TIME_BETWEEN_MODS = 2 * ColorModifier.ONE_SECOND;
 
   private lastModTime = 0;
   private doAlpha: number = 0; // 0 to 360
