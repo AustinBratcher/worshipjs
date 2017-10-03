@@ -15,7 +15,7 @@ export class CmDevice extends ColorModifier{
 
   hashColor(rgba:Rgba):Rgba {
     let newRed = rgba.red;
-    let newGreen = (rgba.green + ColorModifier.hash(this.userAgent))%256;
+    let newGreen = (rgba.green + ColorModifier.hash(this.userAgent))%ColorModifier.MAX_RGBA_VALUE;
     let newBlue = rgba.blue;
 
     return new Rgba(newRed, newGreen, newBlue);

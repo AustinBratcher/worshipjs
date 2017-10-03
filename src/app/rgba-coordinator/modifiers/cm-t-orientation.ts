@@ -43,7 +43,11 @@ export class CmTOrientation extends ColorModifier {
   // TODO consider changing the name of this;
   hashColor(rgba: Rgba): Rgba {
 
+    // TODO for the shift, scale the values to 256 before they are roundeded
     // shift orientation value
+    // TODO change this to only modifiy one of these colors
+    // --> This modifier is a bit "strong" compared to others. Reducing this to one colors
+    // will reduce its influence. 
     let newRed = (this.doAlpha + rgba.red)%ColorModifier.MAX_RGBA_VALUE;
     let newGreen = (this.doGamma + 90 + rgba.green)%ColorModifier.MAX_RGBA_VALUE;
     let newBlue = (this.doBeta + 180 + rgba.blue)%ColorModifier.MAX_RGBA_VALUE;
