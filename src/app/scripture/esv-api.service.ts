@@ -7,6 +7,8 @@ import { ApiService, ApiParameter } from '../api.service';
 @Injectable()
 export class EsvApiService extends ApiService<EsvResponse> {
 
+  // TODO create s sibling component to use this random verse 
+  // http://labs.bible.org/api_web_service
   constructor(protected _http:HttpClient) {
     super(_http);
     this.baseUrl = 'https://api.esv.org/v3/passage/text';
