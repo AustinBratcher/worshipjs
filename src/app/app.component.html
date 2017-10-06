@@ -1,6 +1,33 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" opened="false">
+    <button  *ngFor="let navItem of navItems"  mat-button
+        routerLink="{{navItem.routerLink}}"
+        class="nav-item" (click)="sidenav.close()">
+      <mat-icon>{{navItem.mdIcon}}</mat-icon> {{navItem.title}}
+    </button>
+
+    <button mat-button class="footer"><mat-icon>copyright</mat-icon> 2017, Austin Bratcher</button>
+  </mat-sidenav>
+
+  <mat-toolbar>
+    <mat-icon class="md-24" id="nav-menu-button" (click)="sidenav.toggle()">menu</mat-icon>
+    <a id="title-link" routerLink="/home">WorshipJS</a>
+  </mat-toolbar>
+
+  <div class="main-content container">
+    <app-rgba-coordinator></app-rgba-coordinator>
+    <div class="row">
+      <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</mat-sidenav-container>
+
+
 <!-- <app-rgba-coordinator></app-rgba-coordinator> -->
-<button md-button (click)="getWeather()">Get Weather</button>
+<!-- <button mat-button (click)="getWeather()">Get Weather</button>
 <br>
-<button md-button (click)="getScripture()">Get Scripture</button>
+<button mat-button (click)="getScripture()">Get Scripture</button>
 <br>
-<button md-button (click)="getStocks()">Get Stock</button>
+<button mat-button (click)="getStocks()">Get Stock</button> -->

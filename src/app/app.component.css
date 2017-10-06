@@ -1,6 +1,79 @@
+mat-sidenav-container {
+  background: rgba(0,0,0,0);
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 300px;
+  font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
+  padding-top: 1rem;
+}
+
+mat-toolbar {
+  background: rgba(255,255,255, 0.25);
+  color: white;
+  font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
+  /*height: 5%;*/
+}
+
+#nav-menu-button {
+  cursor: hand;
+}
+
+.nav-item {
+  // static to match width of sidenav
+  width: 300px;
+  text-align: left;
+  font-size: 3rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.nav-item:hover {
+  text-decoration: none;
+}
+.mat-button-focus {
+  text-decoration: none;
+}
+
+#title-link{
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  color: white;
+  text-decoration: none;
+
+}
+
+.main-content {
+  /*padding-top: 3rem;*/
+  padding-bottom: 3rem;
+  /*// margin-left: 7rem;*/
+  /*// margin-right: 7rem;*/
+  color: white;
+}
+
+.footer {
+  font-size: 1em;
+  text-align: left;
+  padding-bottom: 0.75em;
+
+  width: 300px;
+  /*position: absolute;*/
+  bottom: 0;
+}
+
 app-rgba-coordinator {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   z-index: -5;
+}
+
+app-home {
+  /*position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;*/
 }

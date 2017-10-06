@@ -1,8 +1,13 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+
+import {MatSidenavModule} from '@angular/material';
+
+import { NavItem } from './nav-item';
 
 import { RgbaCoordinatorComponent } from './rgba-coordinator/rgba-coordinator.component';
 import { WeatherApiService } from './weather-api.service';
 import { EsvApiService } from './scripture/esv-api.service';
+import { NetApiService } from './scripture/net-api.service';
 import { StockApiService } from './stock-api.service';
 
 @Component({
@@ -11,9 +16,16 @@ import { StockApiService } from './stock-api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'app';
+  title = 'WorshipJS';
 
-  constructor(private _esvApi: EsvApiService, private _weatherApi: WeatherApiService, private _stockApi: StockApiService) {
+  navItems = [
+    new NavItem("Home", "home", "/home"),
+    new NavItem("About", "group_work", "/about"),
+    new NavItem("Thoughts", "library_books", "/thoughts"),
+    new NavItem("Settings", "settings", "/settings"),
+  ];
+
+  constructor(private _bibleApi: NetApiService, private _weatherApi: WeatherApiService, private _stockApi: StockApiService) {
 
   }
 
@@ -26,7 +38,7 @@ export class AppComponent implements OnInit{
   }
 
   getScripture() {
-    this._esvApi.getScripture();
+    this._bibleApi.getScripture();
   }
 
   getStocks() {
