@@ -7,6 +7,8 @@ import { ApiService, ApiParameter } from '../api.service';
 @Injectable()
 export class NetApiService extends ApiService<NetResponse> {
 
+  private verseDetails: any;
+
   // TODO create s sibling component to use this random verse
   // http://labs.bible.org/api_web_service
   constructor(protected _http:HttpClient) {
@@ -19,24 +21,31 @@ export class NetApiService extends ApiService<NetResponse> {
     this.baseUrl = 'https://cors-anywhere.herokuapp.com/https://beta.ourmanna.com/api/v1/get/';
   }
 
-  getScripture() {
+  getScriptureFromApi() {
     let params: ApiParameter[] = [];
     let headers: ApiParameter[] = [];
 
     // headers.push(new ApiParameter('Accept', 'application/json'));
 
     params.push(new ApiParameter('format','json'));
-    params.push(new ApiParameter('order','random'));
+    params.push(new ApiParameter('order','votd'));
 
     this.callApi(params, headers);
 
   }
 
   apiCallSuccess(response:NetResponse) {
-    console.log(response);
+    this.verseDetails = response.verse.details;
+    this.next(this.verseDetails);
+
+    console.log(response.verse.details);
+  }
+
+  getVerseDetails() {
+    return this.verseDetails;
   }
 }
 
 interface NetResponse {
-
+  verse: any;
 }

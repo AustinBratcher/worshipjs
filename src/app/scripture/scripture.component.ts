@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NetApiService } from './net-api.service';
 
 @Component({
   selector: 'app-scripture',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScriptureComponent implements OnInit {
 
-  constructor() { }
+  private verseDetails: any;
+
+  constructor(private _netApi: NetApiService) {
+  }
 
   ngOnInit() {
+    this._netApi.subscribe(
+      (verseDetails) => {
+        this.verseDetails = verseDetails;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+    this._netApi.getScriptureFromApi();
   }
 
 }

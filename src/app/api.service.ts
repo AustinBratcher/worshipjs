@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 import 'rxjs/add/operator/retry';
 
 @Injectable()
-export abstract class ApiService<T> {
+export abstract class ApiService<T> extends Subject<T>  {
 
   private _baseUrl: string;
   private _retryCount: number = 2;
 
-  constructor(protected _http: HttpClient) { }
+  constructor(protected _http: HttpClient) {
+    super();
+  }
 
   callApi(params:ApiParameter[], headers:ApiParameter[]=[]) {
 

@@ -13,7 +13,7 @@ export class WeatherApiService extends ApiService<WeatherResponse> {
     this.baseUrl = "https://api.openweathermap.org/data/2.5/weather";
   }
 
-  getWeather() {
+  getWeatherFromApi() {
     // is there a way to do this without nesting the http call in a callback?
     navigator.geolocation.getCurrentPosition((position)=>{
       let params: ApiParameter[] = [];
@@ -27,6 +27,7 @@ export class WeatherApiService extends ApiService<WeatherResponse> {
   }
 
   apiCallSuccess(response:WeatherResponse) {
+    this.next(response.main);
     console.log(response.main);
   }
 }

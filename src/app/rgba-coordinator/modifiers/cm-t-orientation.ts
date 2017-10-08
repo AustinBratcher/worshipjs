@@ -5,6 +5,7 @@ import { Rgba } from '../rgba/rgba';
 export class CmTOrientation extends ColorModifier {
 
   private TIME_BETWEEN_MODS = 2 * ColorModifier.ONE_SECOND;
+  private PERCENT_CHANGE_THRESHOLD = 7;
 
   private lastModTime = 0;
   private doAlpha: number = 0; // 0 to 360
@@ -18,16 +19,27 @@ export class CmTOrientation extends ColorModifier {
     window.addEventListener("deviceorientation", (event)=>{
 
       // TODO make this less sensetive (i.e. only update if there is a change greater than 5% or something of that nature);
-      this.doAlpha = Math.round(event.alpha);
-      this.doGamma = Math.round(event.gamma);
-      this.doBeta = Math.round(event.beta);
+      let newAlpha = Math.round(event.alpha);
+      let newGamma = Math.round(event.gamma) + 90;
+      let newBeta = Math.round(event.beta) + 180;
+
+      let alphaChange = this.findPercentChange(this.doAlpha, newAlpha);
+      let gammaChange = this.findPercentChange(this.doGamma, newGamma);
+      let betaChange = this.findPercentChange(this.doBeta, newBeta);
 
       // Check and see when the last time the color was modified
-      let currentTime = Date.now();
-      let timeSinceLastMod = currentTime - this.lastModTime;
+      var currentTime = Date.now();
+      var timeSinceLastMod = currentTime - this.lastModTime;
 
       // Only update the color ever 2 seconds
-      if(event && timeSinceLastMod >= this.TIME_BETWEEN_MODS) {
+      if(event && timeSinceLastMod >= this.TIME_BETWEEN_MODS
+          && (alphaChange > this.PERCENT_CHANGE_THRESHOLD
+              || gammaChange > this.PERCENT_CHANGE_THRESHOLD
+              || betaChange > this.PERCENT_CHANGE_THRESHOLD)) {
+
+        this.doAlpha = newAlpha;
+        this.doGamma = newGamma;
+        this.doBeta = newBeta;
 
         // NOTE: the use of the static variable creates a circular dependency
         // This was an intentional design, as the RgbaCoordinatorComponent is intented to
@@ -39,6 +51,12 @@ export class CmTOrientation extends ColorModifier {
     });
   }
 
+  findPercentChange(oldVal, newVal) {
+    let percent = ((oldVal - newVal)/(oldVal+1)) * 100;
+    if(percent < 0) percent *= -1;
+    return percent;
+  }
+
   // Function to modify color as seen fit by this color modifier
   // TODO consider changing the name of this;
   hashColor(rgba: Rgba): Rgba {
@@ -47,10 +65,10 @@ export class CmTOrientation extends ColorModifier {
     // shift orientation value
     // TODO change this to only modifiy one of these colors
     // --> This modifier is a bit "strong" compared to others. Reducing this to one colors
-    // will reduce its influence. 
-    let newRed = (this.doAlpha + rgba.red)%ColorModifier.MAX_RGBA_VALUE;
-    let newGreen = (this.doGamma + 90 + rgba.green)%ColorModifier.MAX_RGBA_VALUE;
-    let newBlue = (this.doBeta + 180 + rgba.blue)%ColorModifier.MAX_RGBA_VALUE;
+    // will reduce its influence.
+    let newRed = rgba.red;
+    let newGreen = (rgba.green + this.doAlpha + this.doBeta + 180 + this.doGamma + 90)%ColorModifier.MAX_RGBA_VALUE;
+    let newBlue = rgba.blue;
 
 
     return new Rgba(newRed, newGreen, newBlue);

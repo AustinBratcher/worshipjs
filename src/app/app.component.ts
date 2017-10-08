@@ -34,15 +34,15 @@ export class AppComponent implements OnInit{
   }
 
   getWeather() {
-    this._weatherApi.getWeather();
+    this._weatherApi.getWeatherFromApi();
   }
 
   getScripture() {
-    this._bibleApi.getScripture();
+    this._bibleApi.getScriptureFromApi();
   }
 
   getStocks() {
-    this._stockApi.getStocks();
+    this._stockApi.getStocksFromApi();
   }
 
 }

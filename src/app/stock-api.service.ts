@@ -9,25 +9,27 @@ import * as AppConfig from '../app.config.json';
 export class StockApiService extends ApiService<StockResponse> {
 
   // https://www.alphavantage.co/documentation/
+  private stockDetails: any;
 
   constructor(protected _http:HttpClient) {
     super(_http);
     this.baseUrl = 'https://www.alphavantage.co/query';
   }
 
-  getStocks() {
+  getStocksFromApi() {
     let params: ApiParameter[] = [];
 
     params.push(new ApiParameter('apikey', AppConfig['alpha_vantage_api_key']));
-    params.push(new ApiParameter('function', 'TIME_SERIES_INTRADAY'));
-    params.push(new ApiParameter('symbol', 'MSFT'));
-    params.push(new ApiParameter('interval', '60min'));
+    params.push(new ApiParameter('function', 'TIME_SERIES_DAILY'));
+    params.push(new ApiParameter('symbol', 'IXIC'));
 
     this.callApi(params);
   }
 
   apiCallSuccess(response:StockResponse) {
-    console.log(response);
+    let details = response['Time Series (Daily)'];
+    this.stockDetails = details[Object.keys(details)[0]];
+    this.next(this.stockDetails);
   }
 
 }

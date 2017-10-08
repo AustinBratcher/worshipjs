@@ -58,11 +58,11 @@ export class CmVOrientation extends ColorModifier{
     if(this.lastOrientation == this.PORTRAIT) {
 
       // TODO: decide on appropriate multiplier
-      newBlue = (newBlue + 256)%ColorModifier.MAX_RGBA_VALUE;
+      newGreen = (newGreen + 256)%ColorModifier.MAX_RGBA_VALUE;
       // console.log('updating for portrait: ' + newBlue);
     }
     else {
-      newBlue = Math.floor(newBlue + 256 + 128)%ColorModifier.MAX_RGBA_VALUE;
+      newGreen = Math.floor(newGreen + 256 + 128)%ColorModifier.MAX_RGBA_VALUE;
       // console.log('updating for landscape: ' + newBlue);
     }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Observer } from 'rxjs/Rx';
 
@@ -12,10 +13,9 @@ import { CmTime } from './modifiers/cm-time';
 import { CmVOrientation } from './modifiers/cm-v-orientation';
 import { CmDevice } from './modifiers/cm-device';
 import { CmGeolocation } from './modifiers/cm-geolocation';
-// import { CmScripture } from './modifiers/cm-scripture';
-// import { CmWeather } from './modifiers/cm-weather';
-// import { CmStock } from './modifiers/cm-stock';
-// import { CmMenu } from './modifiers/cm-menu';
+import { CmScripture } from './modifiers/cm-scripture';
+import { CmWeather } from './modifiers/cm-weather';
+import { CmStock } from './modifiers/cm-stock';
 
 
 @Component({
@@ -42,21 +42,10 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
   private cmtOrientation: CmTOrientation = new CmTOrientation();
 
 
-  constructor() {
-    // this.modifiers.push(new CmTOrientation());
-    // this.modifiers.push(new CmVOrientation());
-    // this.modifiers.push(new CmTime());
-    // this.modifiers.push(new CmDevice());
-    this.modifiers.push(new CmGeolocation());
-    // this.modifiers.push(new CmScripture());
-    // this.modifiers.push(new CmWeather());
-    // this.modifiers.push(new CmS  tock());
-    // this.modifiers.push(new CmMenu());
-
-    for(let modifier of this.modifiers) {
-      modifier.subscribe(this);
-      modifier.init();
-    }
+  // NOTE: there has to be a better way to deal with the need for the HTTP client ot be
+  // passed down through constructors;
+  constructor(private _http:HttpClient) {
+    this.init();
   }
 
   ngOnInit() {
@@ -67,6 +56,27 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
       event.gamma? this.orientation.gamma = event.gamma : this.orientation.gamma = -1;
       event.beta? this.orientation.beta = event.beta : this.orientation.beta = -1;
       }, true);
+  }
+
+  // TODO: set up a settings page where blocks can be initiated based on settings
+  // When settings are changed, the entire thing should rest to account form the beginning
+  // TODO: set the default background color to white
+  init() {
+    this.modifiers.push(new CmGeolocation());
+    this.modifiers.push(new CmScripture(this._http));
+    this.modifiers.push(new CmTime());
+
+    this.modifiers.push(new CmTOrientation());
+    this.modifiers.push(new CmVOrientation());
+    this.modifiers.push(new CmDevice());
+
+    this.modifiers.push(new CmWeather(this._http));
+    this.modifiers.push(new CmStock(this._http));
+
+    for(let modifier of this.modifiers) {
+      modifier.subscribe(this);
+      modifier.init();
+    }
   }
 
   // Work around function to allow RgbaComponent to reference static variable

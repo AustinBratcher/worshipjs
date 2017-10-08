@@ -8,7 +8,8 @@ export class CmGeolocation extends ColorModifier {
 
   init() {
     if("geolocation" in navigator) {
-      navigator.geolocation.watchPosition((position)=> {
+      // navigator.geolocation.watchPosition
+      navigator.geolocation.getCurrentPosition((position)=> {
         this.coords = position.coords;
 
         // ensure coordinates are not null
@@ -18,12 +19,14 @@ export class CmGeolocation extends ColorModifier {
   }
 
   hashColor(rgba:Rgba):Rgba {
-    let newRed = rgba.red;
-    let newGreen = rgba.green;
-
     // TODO: determine if there is a better way to scale these colors
-    let newBlue = (rgba.blue + Math.floor(this.coords.latitude+90)
+    let newRed = (rgba.red + Math.floor(this.coords.latitude+90)
       + Math.floor(this.coords.longitude+180))%ColorModifier.MAX_RGBA_VALUE;
+
+      console.log("geolocation: " + newRed);
+
+    let newGreen = rgba.green;
+    let newBlue = rgba.blue;
 
     return new Rgba(newRed, newGreen, newBlue);
   }
