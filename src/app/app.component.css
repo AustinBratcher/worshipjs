@@ -11,10 +11,11 @@ mat-sidenav {
 
 mat-toolbar {
   background: rgba(255,255,255, 0.25);
-  color: white;
+  color: grey;
   font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
   /*height: 5%;*/
 }
+
 
 #nav-menu-button {
   cursor: hand;
@@ -39,7 +40,7 @@ mat-toolbar {
   font-weight: 600;
   font-size: 1.5rem;
   margin-left: 1rem;
-  color: white;
+  color: grey;
   text-decoration: none;
 
 }

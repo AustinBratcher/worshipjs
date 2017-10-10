@@ -13,27 +13,25 @@ export class CmGeolocation extends ColorModifier {
         this.coords = position.coords;
 
         // ensure coordinates are not null
-        if(this.coords) this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
+        if(this.coords) this.updateColor();
       });
     }
   }
 
   hashColor(rgba:Rgba):Rgba {
     // TODO: determine if there is a better way to scale these colors
-    let newRed = (rgba.red + Math.floor(this.coords.latitude+90)
-      + Math.floor(this.coords.longitude+180))%ColorModifier.MAX_RGBA_VALUE;
-
-      console.log("geolocation: " + newRed);
-
+    let newRed = 255;
     let newGreen = rgba.green;
     let newBlue = rgba.blue;
+
+    if(this._settings.colorSettings.redOn) {
+      newRed = (rgba.red + Math.floor(this.coords.latitude+90)
+        + Math.floor(this.coords.longitude+180))%ColorModifier.MAX_RGBA_VALUE;
+    }
 
     return new Rgba(newRed, newGreen, newBlue);
   }
 
-  scale(){
-
-  }
 
   getGeoLocation() {
     // https://developer.mozilla.org/en-US/docs/Web/API/Geolocation/Using_geolocation

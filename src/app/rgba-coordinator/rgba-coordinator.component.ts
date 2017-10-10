@@ -7,6 +7,8 @@ import { RgbaComponent } from './rgba/rgba.component';
 import { Rgba } from './rgba/rgba';
 import { ColorModifier } from './modifiers/color-modifier';
 
+import { SettingsService } from '../settings/settings.service';
+
 // Modifiers
 import { CmTOrientation } from './modifiers/cm-t-orientation';
 import { CmTime } from './modifiers/cm-time';
@@ -39,12 +41,12 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   // Move to an array that can be looped through for all coordinators
   // modifiers
-  private cmtOrientation: CmTOrientation = new CmTOrientation();
+  private cmtOrientation: CmTOrientation = new CmTOrientation(this._settings);
 
 
   // NOTE: there has to be a better way to deal with the need for the HTTP client ot be
   // passed down through constructors;
-  constructor(private _http:HttpClient) {
+  constructor(private _http:HttpClient, private _settings:SettingsService) {
     this.init();
   }
 
@@ -62,16 +64,16 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
   // When settings are changed, the entire thing should rest to account form the beginning
   // TODO: set the default background color to white
   init() {
-    this.modifiers.push(new CmGeolocation());
-    this.modifiers.push(new CmScripture(this._http));
-    this.modifiers.push(new CmTime());
+    this.modifiers.push(new CmGeolocation(this._settings));
+    this.modifiers.push(new CmScripture(this._http, this._settings));
+    this.modifiers.push(new CmTime(this._settings));
 
-    this.modifiers.push(new CmTOrientation());
-    this.modifiers.push(new CmVOrientation());
-    this.modifiers.push(new CmDevice());
+    this.modifiers.push(new CmTOrientation(this._settings));
+    this.modifiers.push(new CmVOrientation(this._settings));
+    this.modifiers.push(new CmDevice(this._settings));
 
-    this.modifiers.push(new CmWeather(this._http));
-    this.modifiers.push(new CmStock(this._http));
+    this.modifiers.push(new CmWeather(this._http, this._settings));
+    this.modifiers.push(new CmStock(this._http, this._settings));
 
     for(let modifier of this.modifiers) {
       modifier.subscribe(this);

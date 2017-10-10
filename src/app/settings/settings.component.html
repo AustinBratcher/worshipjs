@@ -1,3 +1,31 @@
-<p>
-  settings works!
-</p>
+<mat-slide-toggle
+    #redOnToggle
+    class="example-margin"
+    [color]="color"
+    [checked]="_settings.colorSettings.redOn"
+    (change)="onChange('redOn', redOnToggle.checked)">
+
+  Red Toggle
+</mat-slide-toggle>
+
+<mat-slide-toggle
+    #greenOnToggle
+    class="example-margin"
+    [color]="color"
+    [checked]="_settings.colorSettings.greenOn"
+    (change)="onChange('greenOn', greenOnToggle.checked)">
+
+  Green Toggle
+</mat-slide-toggle>
+
+<mat-slide-toggle
+    #blueOnToggle
+    class="example-margin"
+    [color]="color"
+    [checked]="_settings.colorSettings.blueOn"
+    (change)="onChange('blueOn', blueOnToggle.checked)">
+
+  Blue Toggle
+</mat-slide-toggle>
+
+<button mat-button (click)="print()">Print</button>

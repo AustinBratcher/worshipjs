@@ -1,4 +1,7 @@
 import { Rgba } from '../rgba/rgba';
+import { RgbaCoordinatorComponent } from '../rgba-coordinator.component';
+
+import { SettingsService } from '../../settings/settings.service';
 
 import { Subject } from 'rxjs/Rx';
 
@@ -8,6 +11,26 @@ export abstract class ColorModifier extends Subject<Rgba> {
   static ONE_SECOND:number = 1000;  // one second in milliseconds
   static ONE_HOUR:number = 3600000; // one hour in milliseconds
   static ONE_DAY:number = 86400000; // one day in milliseconds
+
+  constructor(protected _settings:SettingsService) {
+    super();
+    this._settings.subscribe(
+      (colorSetting) => {
+        this.updateColor();
+      },
+      (err) => {
+
+      }
+    );
+  }
+
+  updateColor() {
+    // NOTE: the use of the static variable creates a circular dependency
+    // This was an intentional design, as the RgbaCoordinatorComponent is intented to
+    // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
+    // of sorts for the module consisting of the RgbaComponent and modifiers.
+    this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
+  }
 
   abstract hashColor(rgba: Rgba): Rgba;
 

@@ -16,54 +16,42 @@ export class CmVOrientation extends ColorModifier{
 
       // listen for device rotation events
       window.addEventListener("deviceorientation", (event)=>{
-
-        let currentOrientation = this.getViewportOrientation();
-        if(currentOrientation != this.lastOrientation) {
-          this.lastOrientation = currentOrientation;
-
-          // NOTE: the use of the static variable creates a circular dependency
-          // This was an intentional design, as the RgbaCoordinatorComponent is intented to
-          // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
-          // of sorts for the module consisting of the RgbaComponent and modifiers.
-          this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
-        }
+        this.actOnOrientation();
       });
 
       // listen for browser resize events
       window.addEventListener("resize", (event)=>{
-
-        let currentOrientation = this.getViewportOrientation();
-        if(currentOrientation != this.lastOrientation) {
-          this.lastOrientation = currentOrientation;
-
-          // NOTE: the use of the static variable creates a circular dependency
-          // This was an intentional design, as the RgbaCoordinatorComponent is intented to
-          // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
-          // of sorts for the module consisting of the RgbaComponent and modifiers.
-          this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
-        }
+        this.actOnOrientation();
       });
     }
 
+  actOnOrientation() {
+    let currentOrientation = this.getViewportOrientation();
+    if(currentOrientation != this.lastOrientation) {
+      this.lastOrientation = currentOrientation;
+
+      this.updateColor();
+    }
+  }
+
   hashColor(rgba:Rgba): Rgba {
     let newRed = rgba.red;
-    let newGreen = rgba.green;
+    let newGreen = 255;
     let newBlue = rgba.blue;
 
-    // // reset blue if at 0;
-    // if(newBlue == 0) {
-    //   newBlue += 255;
-    // }
 
-    if(this.lastOrientation == this.PORTRAIT) {
+    if(this._settings.colorSettings.greenOn) {
+      if(this.lastOrientation == this.PORTRAIT) {
 
-      // TODO: decide on appropriate multiplier
-      newGreen = (newGreen + 256)%ColorModifier.MAX_RGBA_VALUE;
-      // console.log('updating for portrait: ' + newBlue);
-    }
-    else {
-      newGreen = Math.floor(newGreen + 256 + 128)%ColorModifier.MAX_RGBA_VALUE;
-      // console.log('updating for landscape: ' + newBlue);
+        // TODO: decide on appropriate multiplier
+        newGreen = (newGreen + 256)%ColorModifier.MAX_RGBA_VALUE;
+        // console.log('updating for portrait: ' + newBlue);
+      }
+      else {
+        newGreen = Math.floor(newGreen + 256 + 128)%ColorModifier.MAX_RGBA_VALUE;
+        // console.log('updating for landscape: ' + newBlue);
+      }
+
     }
 
     return new Rgba(newRed, newGreen, newBlue);

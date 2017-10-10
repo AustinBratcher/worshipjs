@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MatIconModule, MatButtonModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { MatIconModule,
+         MatButtonModule,
+         MatSidenavModule,
+         MatToolbarModule,
+         MatSlideToggleModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
@@ -13,6 +17,8 @@ import { AboutComponent } from './about/about.component';
 import { ThoughtsComponent } from './thoughts/thoughts.component';
 import { SettingsComponent } from './settings/settings.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+import { SettingsService } from './settings/settings.service';
 
 import { RgbaComponent } from './rgba-coordinator/rgba/rgba.component';
 import { RgbaCoordinatorComponent } from './rgba-coordinator/rgba-coordinator.component';
@@ -60,9 +66,10 @@ const appRoutes: Routes = [
     MatIconModule,
     MatButtonModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSlideToggleModule
   ],
-  providers: [EsvApiService, NetApiService, WeatherApiService, StockApiService],
+  providers: [SettingsService, EsvApiService, NetApiService, WeatherApiService, StockApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

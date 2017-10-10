@@ -2,6 +2,8 @@ import { RgbaCoordinatorComponent } from '../rgba-coordinator.component';
 import { ColorModifier } from './color-modifier';
 import { Rgba } from '../rgba/rgba';
 
+import { SettingsService } from '../../settings/settings.service';
+
 export class CmTOrientation extends ColorModifier {
 
   private TIME_BETWEEN_MODS = 2 * ColorModifier.ONE_SECOND;
@@ -11,6 +13,10 @@ export class CmTOrientation extends ColorModifier {
   private doAlpha: number = 0; // 0 to 360
   private doGamma: number = 0; // -90 to 90
   private doBeta: number = 0; // -180 to 180
+
+  // constructor(private _settings: SettingsService) {
+  //   super(_settings);
+  // }
 
 // http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
   init(){
@@ -31,7 +37,7 @@ export class CmTOrientation extends ColorModifier {
       var currentTime = Date.now();
       var timeSinceLastMod = currentTime - this.lastModTime;
 
-      // Only update the color ever 2 seconds
+      // Only update the color ever 2 seconds and over 7% change
       if(event && timeSinceLastMod >= this.TIME_BETWEEN_MODS
           && (alphaChange > this.PERCENT_CHANGE_THRESHOLD
               || gammaChange > this.PERCENT_CHANGE_THRESHOLD
@@ -45,7 +51,7 @@ export class CmTOrientation extends ColorModifier {
         // This was an intentional design, as the RgbaCoordinatorComponent is intented to
         // coordinat all the modifiers and the RgbaComponent. It is a "middle man"
         // of sorts for the module consisting of the RgbaComponent and modifiers.
-        this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
+        this.updateColor();
         this.lastModTime = currentTime;
       }
     });
@@ -67,9 +73,12 @@ export class CmTOrientation extends ColorModifier {
     // --> This modifier is a bit "strong" compared to others. Reducing this to one colors
     // will reduce its influence.
     let newRed = rgba.red;
-    let newGreen = (rgba.green + this.doAlpha + this.doBeta + 180 + this.doGamma + 90)%ColorModifier.MAX_RGBA_VALUE;
+    let newGreen = 255;
     let newBlue = rgba.blue;
 
+    if(this._settings.colorSettings.greenOn) {
+        newGreen = (rgba.green + this.doAlpha + this.doBeta + 180 + this.doGamma + 90)%ColorModifier.MAX_RGBA_VALUE;
+    }
 
     return new Rgba(newRed, newGreen, newBlue);
 

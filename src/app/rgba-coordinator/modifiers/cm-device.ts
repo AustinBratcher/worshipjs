@@ -10,13 +10,17 @@ export class CmDevice extends ColorModifier{
 
     this.userAgent = window.navigator.userAgent;
 
-    this.next(this.hashColor(RgbaCoordinatorComponent.appRgba));
+    this.updateColor();
   }
 
   hashColor(rgba:Rgba):Rgba {
     let newRed = rgba.red;
-    let newGreen = (rgba.green + ColorModifier.hash(this.userAgent))%ColorModifier.MAX_RGBA_VALUE;
+    let newGreen = 255;
     let newBlue = rgba.blue;
+
+    if(this._settings.colorSettings.greenOn) {
+      newGreen = (rgba.green + ColorModifier.hash(this.userAgent))%ColorModifier.MAX_RGBA_VALUE;
+    }
 
     return new Rgba(newRed, newGreen, newBlue);
   }
