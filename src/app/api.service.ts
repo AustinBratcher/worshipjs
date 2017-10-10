@@ -1,6 +1,6 @@
+// Angular/3rd Party imports
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-
 import { Observable, Subject } from 'rxjs/Rx';
 import 'rxjs/add/operator/retry';
 
@@ -14,15 +14,18 @@ export abstract class ApiService<T> extends Subject<T>  {
     super();
   }
 
+  // Generic function to call the desired api
   callApi(params:ApiParameter[], headers:ApiParameter[]=[]) {
 
+    // Call API
     // TODO use regex to clean up baseUrl
     this._http.get<T>(this.baseUrl+'?'+this.buildParams(params), {
       headers: this.buildHeaders(headers)
     })
     .retry(3)
     .subscribe(
-      data => {this.apiCallSuccess(data)}, // TODO find a better way to pass this to users besides a callback
+      // TODO find a better way to pass this to users besides a callback
+      data => {this.apiCallSuccess(data)},
       this.handleError
     );
 

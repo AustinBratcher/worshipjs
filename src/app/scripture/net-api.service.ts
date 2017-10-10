@@ -1,7 +1,9 @@
+// Angular/3rd Party imports
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as AppConfig from '../../app.config.json';
 
+// General component/class imports
+import * as AppConfig from '../../app.config.json';
 import { ApiService, ApiParameter } from '../api.service';
 
 @Injectable()
@@ -9,8 +11,6 @@ export class NetApiService extends ApiService<NetResponse> {
 
   private verseDetails: any;
 
-  // TODO create s sibling component to use this random verse
-  // http://labs.bible.org/api_web_service
   constructor(protected _http:HttpClient) {
     super(_http);
 
@@ -23,22 +23,19 @@ export class NetApiService extends ApiService<NetResponse> {
 
   getScriptureFromApi() {
     let params: ApiParameter[] = [];
-    let headers: ApiParameter[] = [];
 
-    // headers.push(new ApiParameter('Accept', 'application/json'));
-
+    // add parameters for api call
     params.push(new ApiParameter('format','json'));
     params.push(new ApiParameter('order','votd'));
 
-    this.callApi(params, headers);
+    this.callApi(params);
 
   }
 
+  // Inherited & implemented method for successful api call
   apiCallSuccess(response:NetResponse) {
     this.verseDetails = response.verse.details;
     this.next(this.verseDetails);
-
-    console.log(response.verse.details);
   }
 
   getVerseDetails() {

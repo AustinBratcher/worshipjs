@@ -1,3 +1,4 @@
+// Class for color setting switches
 export class ColorSettings {
   constructor(private _redOn: boolean = true,
   private _blueOn: boolean = true,
@@ -16,7 +17,7 @@ export class ColorSettings {
   }
 
   set greenOn(greenOn: boolean) {
-    this._greenOn = greenOn; 
+    this._greenOn = greenOn;
   }
 
   get blueOn() {

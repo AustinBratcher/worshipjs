@@ -1,4 +1,7 @@
+// Angular/3rd Party imports
 import { Component, OnInit } from '@angular/core';
+
+// General Component/Class imports
 import { SettingsService } from './settings.service';
 
 @Component({
@@ -14,13 +17,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(private _settings: SettingsService) { }
 
-  ngOnInit() {
-
-  }
-
-  print() {
-    console.log(this._settings.colorSettings.redOn);
-  }
+  ngOnInit() {}
 
   onChange(color: string, value:boolean) {
     this._settings.changeColorSetting(color, value);

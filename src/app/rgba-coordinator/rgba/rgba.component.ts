@@ -1,6 +1,10 @@
-import { Component, OnInit, Input, OnChanges, DoCheck} from '@angular/core';
+// Imports from Angular/3rd Party
+import { Component, OnInit } from '@angular/core';
 
+// General Classes and Components
 import { Rgba } from './rgba';
+import { SettingsService } from '../../settings/settings.service';
+
 
 @Component({
   selector: 'app-rgba',
@@ -9,26 +13,30 @@ import { Rgba } from './rgba';
 })
 export class RgbaComponent implements OnInit{
 
+  // rgba variable for background color
   private rgba: Rgba;
 
   // Dynamic styles object
   private currentStyles = {};
 
-  constructor() {
+  constructor(private _settings: SettingsService) {
     this.rgba = new Rgba();
+
+    this._settings.subscribe(
+      (colorSetting) => {
+        // When settings are updated, update the current colors
+        this.updateCurrentStyles();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
   }
 
   ngOnInit() { }
 
-
-  ngOnChanges() {
-    this.updateCurrentStyles();
-  }
-
-  getRgba() {
-    return this.rgba;
-  }
-
+  // Update background color of this component
   public updateColors(rgba:Rgba) {
     this.rgba.red = rgba.red;
     this.rgba.blue = rgba.blue;
@@ -41,8 +49,13 @@ export class RgbaComponent implements OnInit{
 
   // Update dynamics style
   updateCurrentStyles() {
+    // Update styles based on the current settings
+    let redVal = (this._settings.colorSettings.redOn) ? this.rgba.red : Rgba.MAX_VALUE;
+    let greenVal = (this._settings.colorSettings.greenOn) ? this.rgba.green : Rgba.MAX_VALUE;
+    let blueVal = (this._settings.colorSettings.blueOn) ? this.rgba.blue : Rgba.MAX_VALUE;
+
     this.currentStyles ={
-      'background-color': 'rgba(' + this.rgba.red + ',' + this.rgba.green + ',' + this.rgba.blue + ',' + this.rgba.alpha +')'
+      'background-color': `rgba(${redVal}, ${greenVal}, ${blueVal}, ${this.rgba.alpha})`
     };
   }
 

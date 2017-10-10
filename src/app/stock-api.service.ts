@@ -1,8 +1,9 @@
+// Angular/3rd party imports
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+// General Component/Class imports
 import { ApiService, ApiParameter } from './api.service';
-
 import * as AppConfig from '../app.config.json';
 
 @Injectable()
@@ -19,6 +20,7 @@ export class StockApiService extends ApiService<StockResponse> {
   getStocksFromApi() {
     let params: ApiParameter[] = [];
 
+    // Add parameters for api call
     params.push(new ApiParameter('apikey', AppConfig['alpha_vantage_api_key']));
     params.push(new ApiParameter('function', 'TIME_SERIES_DAILY'));
     params.push(new ApiParameter('symbol', 'IXIC'));
@@ -34,6 +36,4 @@ export class StockApiService extends ApiService<StockResponse> {
 
 }
 
-interface StockResponse {
-
-}
+interface StockResponse {}

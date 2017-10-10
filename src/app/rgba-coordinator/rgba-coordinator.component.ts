@@ -1,15 +1,14 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+// Angular/3rd party imports
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { Observer } from 'rxjs/Rx';
 
-import { RgbaComponent } from './rgba/rgba.component';
+// General Componenets and Services
 import { Rgba } from './rgba/rgba';
-import { ColorModifier } from './modifiers/color-modifier';
-
-import { SettingsService } from '../settings/settings.service';
+import { RgbaComponent } from './rgba/rgba.component';
 
 // Modifiers
+import { ColorModifier } from './modifiers/color-modifier';
 import { CmTOrientation } from './modifiers/cm-t-orientation';
 import { CmTime } from './modifiers/cm-time';
 import { CmVOrientation } from './modifiers/cm-v-orientation';
@@ -26,50 +25,43 @@ import { CmStock } from './modifiers/cm-stock';
   styleUrls: ['./rgba-coordinator.component.css']
 })
 export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
+  //NOTE: This class could be eliminated and modifiers moved to the RgbaComponent
+  // (with the RgbaComponent then subscribing to them itself). This would be more
+  // streamlined, but would add responsibility to the RgbaComponent that might not
+  // be necessary
 
-  // Temp variable to view orientation
-  private orientation = {
-    alpha: 0,
-    gamma: 0,
-    beta: 0
-  };
-
+  // main rgbaComponent
   @ViewChild('backgroundRgba')
   private rgbaComponent: RgbaComponent;
 
   private modifiers: ColorModifier[] = [];
 
-  // TODO remove in final touches
-  private cmtOrientation: CmTOrientation = new CmTOrientation(this._settings);
-
-
   // NOTE: there has to be a better way to deal with the need for the HTTP client ot be
   // passed down through constructors;
-  constructor(private _http:HttpClient, private _settings:SettingsService) {}
+  constructor(private _http:HttpClient) {}
 
   ngOnInit() {
     this.init();
-
-    // Temp event listener to view orientation
-    window.addEventListener("deviceorientation", (event)=>{
-      event.alpha? this.orientation.alpha = event.alpha : this.orientation.alpha = -1;
-      event.gamma? this.orientation.gamma = event.gamma : this.orientation.gamma = -1;
-      event.beta? this.orientation.beta = event.beta : this.orientation.beta = -1;
-      }, true);
   }
-  
+
+  // Initialization method
   init() {
-    this.modifiers.push(new CmGeolocation(this._settings));
-    this.modifiers.push(new CmScripture(this._http, this._settings));
-    this.modifiers.push(new CmTime(this._settings));
 
-    this.modifiers.push(new CmTOrientation(this._settings));
-    this.modifiers.push(new CmVOrientation(this._settings));
-    this.modifiers.push(new CmDevice(this._settings));
+    // Red modifiers
+    this.modifiers.push(new CmGeolocation());
+    this.modifiers.push(new CmScripture(this._http));
+    this.modifiers.push(new CmTime());
 
-    this.modifiers.push(new CmWeather(this._http, this._settings));
-    this.modifiers.push(new CmStock(this._http, this._settings));
+    // Green Modifiers
+    this.modifiers.push(new CmTOrientation());
+    this.modifiers.push(new CmVOrientation());
+    this.modifiers.push(new CmDevice());
 
+    // Blue Modifiers
+    this.modifiers.push(new CmWeather(this._http));
+    this.modifiers.push(new CmStock(this._http));
+
+    // subscribe to each modifier and initialize
     for(let modifier of this.modifiers) {
       modifier.subscribe(this);
       modifier.init();
@@ -84,7 +76,7 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   // Method to comply with Observer interface
   error(e) {
-
+    console.error(e);
   }
 
   // Method to comply with Observer interface
