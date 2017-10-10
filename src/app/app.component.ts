@@ -33,14 +33,17 @@ export class AppComponent implements OnInit{
 
   }
 
+  // TODO remove
   getWeather() {
     this._weatherApi.getWeatherFromApi();
   }
 
+  // TODO remove
   getScripture() {
     this._bibleApi.getScriptureFromApi();
   }
 
+  // TODO remove
   getStocks() {
     this._stockApi.getStocksFromApi();
   }

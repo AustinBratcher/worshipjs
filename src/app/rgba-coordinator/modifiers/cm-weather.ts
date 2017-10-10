@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 
-import { RgbaCoordinatorComponent } from '../rgba-coordinator.component';
 import { ColorModifier } from './color-modifier';
 import { Rgba } from '../rgba/rgba';
 
@@ -35,7 +34,7 @@ export class CmWeather extends ColorModifier {
   hashColor(rgba: Rgba): Rgba {
     let newRed = rgba.red;
     let newGreen = rgba.green
-    let newBlue = 255; 
+    let newBlue = 255;
 
     if(this._settings.colorSettings.blueOn) {
       newBlue = (rgba.blue + Math.floor(this.weatherDetails['temp']))%ColorModifier.MAX_RGBA_VALUE;

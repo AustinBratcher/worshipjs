@@ -9,19 +9,16 @@ import { Rgba } from './rgba';
 })
 export class RgbaComponent implements OnInit{
 
-
-  @Input()
   private rgba: Rgba;
 
   // Dynamic styles object
   private currentStyles = {};
 
   constructor() {
+    this.rgba = new Rgba();
   }
 
-  ngOnInit() {
-    // this.updateCurrentStyles();
-  }
+  ngOnInit() { }
 
 
   ngOnChanges() {
@@ -32,14 +29,11 @@ export class RgbaComponent implements OnInit{
     return this.rgba;
   }
 
-  updateColors(rgba:Rgba) {
-    // Shell method to follow the rules of the ColorModifier interface
+  public updateColors(rgba:Rgba) {
     this.rgba.red = rgba.red;
     this.rgba.blue = rgba.blue;
     this.rgba.green = rgba.green;
     this.rgba.alpha = rgba.alpha;
-
-    //this.ngOnChanges();
 
     // Update dynamic styles
     this.updateCurrentStyles();

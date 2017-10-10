@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observer } from 'rxjs/Rx';
@@ -27,9 +27,6 @@ import { CmStock } from './modifiers/cm-stock';
 })
 export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
-  // Values for rgba color
-  static appRgba: Rgba = new Rgba();
-
   // Temp variable to view orientation
   private orientation = {
     alpha: 0,
@@ -37,20 +34,21 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
     beta: 0
   };
 
+  @ViewChild('backgroundRgba')
+  private rgbaComponent: RgbaComponent;
+
   private modifiers: ColorModifier[] = [];
 
-  // Move to an array that can be looped through for all coordinators
-  // modifiers
+  // TODO remove in final touches
   private cmtOrientation: CmTOrientation = new CmTOrientation(this._settings);
 
 
   // NOTE: there has to be a better way to deal with the need for the HTTP client ot be
   // passed down through constructors;
-  constructor(private _http:HttpClient, private _settings:SettingsService) {
-    this.init();
-  }
+  constructor(private _http:HttpClient, private _settings:SettingsService) {}
 
   ngOnInit() {
+    this.init();
 
     // Temp event listener to view orientation
     window.addEventListener("deviceorientation", (event)=>{
@@ -59,10 +57,7 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
       event.beta? this.orientation.beta = event.beta : this.orientation.beta = -1;
       }, true);
   }
-
-  // TODO: set up a settings page where blocks can be initiated based on settings
-  // When settings are changed, the entire thing should rest to account form the beginning
-  // TODO: set the default background color to white
+  
   init() {
     this.modifiers.push(new CmGeolocation(this._settings));
     this.modifiers.push(new CmScripture(this._http, this._settings));
@@ -81,16 +76,10 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
     }
   }
 
-  // Work around function to allow RgbaComponent to reference static variable
-  // https://stackoverflow.com/questions/39193538/how-to-bind-static-variable-of-component-in-html-in-angular-2
-  getAppRgba() {
-    return RgbaCoordinatorComponent.appRgba;
-  }
 
   // Method to comply with Observer interface
   next(rgba: Rgba) {
-    // console.log(this);
-    RgbaCoordinatorComponent.appRgba = rgba;
+    this.rgbaComponent.updateColors(rgba);
   }
 
   // Method to comply with Observer interface
@@ -103,16 +92,5 @@ export class RgbaCoordinatorComponent implements OnInit, Observer<Rgba>  {
 
   }
 
-
-  // Temp method for prototyping
-  print() {
-    // console.log(this.appRgba);
-    this.cmtOrientation.next(new Rgba(0,0,0,1));
-  }
-
-  // Temp method for prototyping
-  status() {
-    console.log(RgbaCoordinatorComponent.appRgba);
-  }
 
 }

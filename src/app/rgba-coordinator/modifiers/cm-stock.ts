@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 
-import { RgbaCoordinatorComponent } from '../rgba-coordinator.component';
 import { ColorModifier } from './color-modifier';
 import { Rgba } from '../rgba/rgba';
 
