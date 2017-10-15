@@ -19,9 +19,9 @@ export class AppComponent implements OnInit{
 
   navItems = [
     new NavItem("Home", "home", "/home"),
-    new NavItem("About", "group_work", "/about"),
-    new NavItem("Thoughts", "library_books", "/thoughts"),
-    new NavItem("Settings", "settings", "/settings"),
+    new NavItem("About", "group_work", "/about")
+    // new NavItem("Thoughts", "library_books", "/thoughts"),
+    // new NavItem("Settings", "settings", "/settings"),
   ];
 
   constructor(private _bibleApi: NetApiService, private _weatherApi: WeatherApiService, private _stockApi: StockApiService) {}

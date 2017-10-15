@@ -1,3 +1,91 @@
+<h1> Worship as Poetry </h1>
 <p>
-  about works!
+  Worship is not linear. Worship is not mathematical. Worship is not a formula. Worship is not one size fits all.
+  <br>
+  <br>
+  Worship is a craft. Worship is a discipline. Worship is forming. Worship is informing. Worship is a call.
+  <br>
+  <br>
+  While the leader might have an idea of what worship should look like, he or she can not decide exactly what each and every
+  participant will take away. They can only set an aim and hope their message is received with as much intention as it was crafted with.
+  Worship is a place where conversation with God can happen. As with any good conversation, there is no real beginning or end. It
+  is something we step into and out of. It is something our brothers and sisters and Christ are stepping into and out of as well.
+  Worship is a place were we all come as a community to be with God and learn how God encounters the unique experiences we each have.
+</p>
+
+<h1> So what is this? </h1>
+<p>
+  This website consitutes the "digital equivalent" of a worship service. While the role of technology in a worship service is a fruitful
+  and intruiging conversation to have, this website is not commentary on that. Rather, this website serves as an example of how our different
+  settings and circumstances shape the way we see and encouter scripture. It is specifically designed to have almost unique experiences for
+  every viewer. Yet at the same time, there are intentional similarities built in for all. In the same way, an indiviaul viewer can have widely
+  different or comfortingly similar views of this website. I'll leave it to you to form your own opinions from here.
+  <br>
+  <br>
+  This website is intended to be an interactive experience. Look at it at different times of day, in different places, holding your phone in different
+  ways and changing the various settings (I dare you to turn off all the switches). All the while, ponder and pray with the scripture on the screen.
+  <br>
+  <br>
+  The colors on the screen are composed of standard red, green, and blue (RGB) components. The switches below will turn on or off (default is on) their
+  corresponding color. Each color repsents some aspect of human life that goes into the worship experience. As the page is loaded, information is gathered,
+  and the varying color components are each modified according to the information gathered about their "aspects of human life."
+</p>
+
+
+<h2> The Red </h2>
+<p>
+  The red coloring represents the "regular" aspects of worship. We tend to go to worship at the same time and in the same place. Yet, sometimes, even
+  changing pews or the time of day we go to worship can change our perspective on the scripture of the day.
+  <br>
+  <br>
+  Red is modified by the current time of day (to the nearest hour), your GPS location, and the scripture of the day (from https://beta.ourmanna.com).
+  <br>
+  <br>
+  <mat-slide-toggle
+      #redOnToggle
+      [color]="color"
+      [checked]="_settings.colorSettings.redOn"
+      (change)="onChange('redOn', redOnToggle.checked)">
+
+    Toggle red modifiers
+  </mat-slide-toggle>
+</p>
+
+<h2> The Green </h2>
+<p>
+  The green coloring represents the way we orient ourselves towards the scripture of the day. Sometimes changing our own posture towards the scripture
+  can drastically change the way we recieve it.
+  <br>
+  <br>
+  Green is modified by the current deviced used to open up the website (i.e. the user agent), the current viewport orientation of the device (i.e.
+  landscape or portrait), and the orientation of the device in 3D space (for mobile phones).
+  <br>
+  <br>
+  <mat-slide-toggle
+      #greenOnToggle
+      [color]="color"
+      [checked]="_settings.colorSettings.greenOn"
+      (change)="onChange('greenOn', greenOnToggle.checked)">
+
+    Toggle green modifiers
+  </mat-slide-toggle>
+</p>
+
+<h2> The Blue </h2>
+<p>
+  Blue represents the things in life we cannot control. Sometimes there are things far beyond our grasp that deeply effect the way we live and worship
+  (for better or for worse).
+  <br>
+  <br>
+  Blue is modified by the current weather (from openweathermap.org) and the current stock price of the Nasddaq composite fund (ticker: IXIC).
+  <br>
+  <br>
+  <mat-slide-toggle
+      #blueOnToggle
+      [color]="color"
+      [checked]="_settings.colorSettings.blueOn"
+      (change)="onChange('blueOn', blueOnToggle.checked)">
+
+    Toggle blue modifiers
+  </mat-slide-toggle>
 </p>

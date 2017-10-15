@@ -1,6 +1,5 @@
 <mat-slide-toggle
     #redOnToggle
-    class="example-margin"
     [color]="color"
     [checked]="_settings.colorSettings.redOn"
     (change)="onChange('redOn', redOnToggle.checked)">
@@ -10,7 +9,6 @@
 
 <mat-slide-toggle
     #greenOnToggle
-    class="example-margin"
     [color]="color"
     [checked]="_settings.colorSettings.greenOn"
     (change)="onChange('greenOn', greenOnToggle.checked)">
@@ -20,7 +18,6 @@
 
 <mat-slide-toggle
     #blueOnToggle
-    class="example-margin"
     [color]="color"
     [checked]="_settings.colorSettings.blueOn"
     (change)="onChange('blueOn', blueOnToggle.checked)">
